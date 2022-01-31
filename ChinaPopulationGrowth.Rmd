@@ -1,0 +1,38 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+```{r, eval=FALSE}
+install.packages("readxl")
+```
+
+
+```{r}
+library(readxl)
+Pdata=read_excel("D:\\uw\\543\\FinalProject\\543Final\\PopulationChange.xlsx")
+```
+
+
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+str(Pdata)
+```
+
+```{r}
+base1=ggplot(Pdata, aes(x=Year, y=PopulationChange))+ggtitle("Population Change in China: 1950-2020")
+line2=base1+geom_line()+geom_point()+geom_line()
+line2
+```
+
+
+
+
+
