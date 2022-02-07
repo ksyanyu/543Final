@@ -1,0 +1,37 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+```{r getData, eval=FALSE}
+link='https://github.com/ksyanyu/543Final/raw/main/PopulationChange.xlsx'
+
+library(rio)
+
+#getting the data TABLE from the file in the cloud:
+Pdata=rio::import(link)
+```
+
+
+```{r getData, eval=FALSE}
+library(ggplot2)
+```
+
+
+```{r}
+str(Pdata)
+```
+
+```{r}
+base1=ggplot(Pdata, aes(x=Year, y=PopulationChange))+ggtitle("Population Change in China: 1950-2020")
+line2=base1+geom_line()+geom_point()+geom_line()
+line2
+```
+
+
+
+
+
