@@ -1,0 +1,15 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+link='https://raw.githubusercontent.com/ksyanyu/543Final/main/PopulationGrowthAllCountry.csv'
+
+library(rio)
+
+#getting the data TABLE from the file in the cloud:
+allCountry=rio::import(link)
+```
