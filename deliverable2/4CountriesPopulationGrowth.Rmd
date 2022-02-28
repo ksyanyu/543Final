@@ -1,0 +1,43 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r, eval=FALSE}
+link='https://github.com/ksyanyu/543Final/raw/main/PopulationChange-4countries.xlsx'
+
+library(rio)
+
+#getting the data TABLE from the file in the cloud:
+Bivariate=rio::import(link)
+```
+
+
+
+```{r, eval=FALSE}
+library(ggplot2)
+```
+
+
+```{r}
+str(Bivariate)
+```
+
+```{r}
+# boxplot of days to report per precinct
+
+base1=ggplot(Bivariate, aes(x=Year,
+                            y=PopulationChange,
+                            colour=Country))+ggtitle("Population Change in 4 countries: 1950-2020")
+line2=base1+geom_line()+geom_hline(yintercept = 0, #add the reference line: where
+                           linetype="dashed", 
+                           size=1, #thickness
+                           alpha=0.5) #transparency
+# line2 +scale_y_log10() caution: couldn't show the negative values but it's all about interpreting
+# base1=ggplot(Bivariate(Bivariate$2010), something like that, zooming in to the nearest 10 years
+```
+
+
+
+
+
