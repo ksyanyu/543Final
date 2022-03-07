@@ -1,0 +1,99 @@
+---
+title: "543FinalPopulationChange"
+author: "Yanyu Shu, Jinyu Yang"
+date: "3/6/2022"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+###
+library(ggplot2)
+library(rio)
+library(sf)
+```
+
+```{r}
+# prepare the data
+linkP1='https://github.com/ksyanyu/543Final/raw/main/PopulationChange.xlsx'
+chinaData=rio::import(linkP1)
+
+linkP2='https://github.com/ksyanyu/543Final/raw/main/PopulationChange-4countries.xlsx'
+countriesData=rio::import(linkP2)
+
+linkP3='https://github.com/ksyanyu/543Final/raw/main/FinalDashboard/all2019ForDashboard.xlsx'
+allCountryMap=rio::import(linkP3)
+
+linkMap="https://github.com/EvansDataScience/VAforPM_Spatial/raw/main/worldMap.geojson" 
+mapWorld=read_sf(linkMap)
+```
+
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+## plot 1 Population Change in China: 1950-2020
+
+```{r}
+base1=ggplot(chinaData, aes(x=Year, y=PopulationChange))+ggtitle("Population Change in China: 1950-2020")
+line2=base1+geom_line()+geom_point()+geom_line()
+line2
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+## plot 2 Population Change in 4 countries: 1950-2020
+
+```{r}
+# boxplot of days to report per precinct
+
+base1a=ggplot(countriesData, aes(x=Year,
+                            y=PopulationChange,
+                            colour=Country))
+                                            
+line2a=base1a+geom_line()+geom_hline(yintercept = 0, #add the reference line: where
+                           linetype="dashed", 
+                           size=1, #thickness
+                           alpha=0.5) #transparency
+line3a=line2a +scale_y_log10() # caution: couldn't show the negative values but it's all about interpreting
+
+
+line3a=line3a+labs(title = "Population Change in 4 countries: 1950-2020", subtitle = "(in log10 scale)", caption = "*From 2010, Japan's population growth became nagative")
+line3a
+```
+
+
+
+## plot 3 map
+
+```{r}
+# rename the column to make it easy to merge
+names(allCountryMap)=c("Country", "ISO3", "Year", "PopulationChange", "cluster")
+
+mapWorldVars=merge(mapWorld, #map first
+                   allCountryMap, 
+                   by='ISO3') 
+
+# 1. Base layer: 
+# plot original map
+base=ggplot(data=mapWorld) + geom_sf(fill='grey90',
+                                     color=NA) + theme_classic()
+
+#base map
+# 2. Data layer:
+clusterMap= base + geom_sf(data=mapWorldVars,
+                           aes(fill=cluster),
+                           color=NA) # color of border
+theLegTitle="Population growth\nPopulation of 2019 minus 2018\n(grey is missing)"
+
+#now
+clusterMap+ scale_fill_brewer(palette ='Set1',name=theLegTitle)
+
+```
+
+
