@@ -6,7 +6,7 @@ output:
 ---
 
 
-```{r getData, eval=FALSE}
+```{r}
 link='https://github.com/ksyanyu/543Final/raw/main/PopulationChange.xlsx'
 
 library(rio)
@@ -16,7 +16,7 @@ Pdata=rio::import(link)
 ```
 
 
-```{r getData, eval=FALSE}
+```{r}
 library(ggplot2)
 ```
 
@@ -26,7 +26,8 @@ str(Pdata)
 ```
 
 ```{r}
-base1=ggplot(Pdata, aes(x=Year, y=PopulationChange))+ggtitle("Population Change in China: 1950-2020")
+base1=ggplot(Pdata, aes(x=Year, y=PopulationChange))
+             +ggtitle("Population Change in China: 1950-2020")
 line2=base1+geom_line()+geom_point()+geom_line()
 line2
 ```
