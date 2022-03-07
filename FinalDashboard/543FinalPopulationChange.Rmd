@@ -14,9 +14,7 @@ library(flexdashboard)
 library(ggplot2)
 library(rio)
 library(sf)
-```
 
-```{r}
 # prepare the data
 linkP1='https://github.com/ksyanyu/543Final/raw/main/PopulationChange.xlsx'
 chinaData=rio::import(linkP1)
@@ -33,9 +31,10 @@ mapWorld=read_sf(linkMap)
 
 
 
-Column {data-width=350}
+Column 
 -----------------------------------------------------------------------
-## plot 1 Population Change in China: 1950-2020
+
+### plot 1 Population Change in China: 1950-2020
 
 ```{r}
 base1=ggplot(chinaData, aes(x=Year, y=PopulationChange))+ggtitle("Population Change in China: 1950-2020")
@@ -44,10 +43,9 @@ line2
 ```
 
 
-Column {data-width=350}
------------------------------------------------------------------------
 
-## plot 2 Population Change in 4 countries: 1950-2020
+
+### plot 2 Population Change in 4 countries: 1950-2020
 
 ```{r}
 # boxplot of days to report per precinct
@@ -67,11 +65,12 @@ line3a=line3a+labs(title = "Population Change in 4 countries: 1950-2020", subtit
 line3a
 ```
 
+Column
+-----------------------------------------------------------------
 
+### plot 3 Population change map
 
-## plot 3 map
-
-```{r}
+```{r, fig.width=10}
 # rename the column to make it easy to merge
 names(allCountryMap)=c("Country", "ISO3", "Year", "PopulationChange", "cluster")
 
